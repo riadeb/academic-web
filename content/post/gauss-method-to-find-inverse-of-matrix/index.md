@@ -5,13 +5,13 @@ date: 2020-09-09T08:33:37.525Z
 draft: false
 featured: true
 authors:
-  - ""
+  - Riade Benbaki
 categories:
   - Algorithmics
 image:
   filename: matrix-3109795_1280.jpg
   focal_point: Smart
-  preview_only: true
+  preview_only: false
 ---
 During an algorithmic challenge, I had to inverse a matrix of rational numbers. Usually the go-to method for this is to use a liner algebra package like Numpy. However, surprisingly, it is not possible to [invert a matrix of rationals (or fractions) using pure Numpy](https://stackoverflow.com/questions/33437023/linear-system-solution-with-fractions-in-numpy), unless you're willing to have a results as a floating point value (with the inherent precision loss). The solution is therefore to write your own liner solver.
 
