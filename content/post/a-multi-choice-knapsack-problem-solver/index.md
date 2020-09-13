@@ -110,7 +110,7 @@ then as we go through the sorted array, we compare the rate to the
 maximum rate of all the previous terms, and we update this maximum.
 
 
-$$
+<pre id="df">
 \begin{algorithmic}
 
 \FOR{$n = 0$ to $ N-1$ }
@@ -125,7 +125,10 @@ $$
 \ENDFOR
 \ENDFOR
 \end{algorithmic}
-$$
+</pre>
+<script>
+    pseudocode.renderElement(document.getElementById("df"));
+</script>
 
 For each channel, sorting costs $O(KM log(KM))$, then we go through the
 terms of each channel, which takes linear time. This gives a total
