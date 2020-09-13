@@ -52,7 +52,7 @@ is a non-decreasing step function that takes a finite number of non-zero
 values, say $M$ for all $k$ and $n$ and such that $u_{k,n}(0) = 0$ for
 all $k$ and $n$. To fix notations, we thus define: 
 
-$u_{k,n}(p_{k,n}) = \left\{
+$u_{k,n}(p_{k,n}) =& &\left\{
     \begin{array}{ll}
         \tau_{si} & \mbox{si } \{s,i\} \in E \\
         \infty & \mbox{sinon.}
