@@ -87,7 +87,7 @@ size, then solve the LP and the IP.
 
 ## First preprocessing step
 
-We want to make a quick preprocessing to check if an instance has
+We make a first preprocessing to check if an instance has
 obviously no solution and to remove triplets $(k, m, n)$ that, if
 chosen, obviously prevent any solution to be feasible. A triplet (k,m,n)
 is obviously not a part from any solution if
@@ -103,18 +103,30 @@ $r_{k,m,n} \geq r_{k^{'},m^{'},n}$ then there is an optimal solution of
 the ILP such that $x_{k^{'},m^{'},n} = 0$. We say that $(k^{'},m^{'},n)$
 is IP-dominated
 
-Based on Lemma 1, we provide an algorithm to remove IP-dominated terms
+Based on this, we provide an algorithm to remove IP-dominated terms
 of an instance of the IP problem. We sort the terms by their power
 values for each channel (and by decreasing rate in case of equal power),
 then as we go through the sorted array, we compare the rate to the
-maximum rate of previous terms, and we update this maximum.
+maximum rate of all the previous terms, and we update this maximum.
+
+
+$$
+\begin{algorithmic}
 
 \FOR{$n = 0$ to $ N-1$ }
-$channels\[n].sortbypower()$ $maxrate = channels\[n].rate$ currterm =
-channels\[n]\[i] remove(currterm) maxrate = max(maxrate,
-currterm.rate)
+\STATE $channels[n].sortbypower()$
+\STATE $maxrate = channels[n][0].rate$
+\FOR{$i = 0$ to $channels[n].size()$}
+\STATE currterm = channels[n][i]
+\IF{currterm.rate $<=$ maxrate} 
+\STATE remove(currterm)
+\ENDIF
+\STATE maxrate = max(maxrate, currterm.rate)
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+$$
 
-\
 For each channel, sorting costs $O(KM log(KM))$, then we go through the
 terms of each channel, which takes linear time. This gives a total
 complexity of $O(NKM log(KM))$
