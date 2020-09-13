@@ -42,10 +42,10 @@ over a set $\mathcal{N}$ of $N$ channels. Every channel shall be used to
 serve a single user and cannot be left unallocated for efficiency
 reasons; a user can be served using several channels; however some users
 may not be served. The scheduler chooses a transmit power
-$p*{k,n}, k \in K, n \in N$ to serve user $k$ on channel $n$. If user
-$k$ is not served on channel $n$, we have $p*{k,n} = 0$. When user $k$
-is served over channel $n$ with power $p*{k,n}$, its data rate is
-$r*{k,n} = u*{k,n}(p*{k,n})$, where the function $u*{k,n}$ is called the
+$p_{k,n}, k \in K, n \in N$ to serve user $k$ on channel $n$. If user
+$k$ is not served on channel $n$, we have $p_{k,n} = 0$. When user $k$
+is served over channel $n$ with power $p_{k,n}$, its data rate is
+$r_{k,n} = u_{k,n}(p_{k,n})$, where the function $u*{k,n}$ is called the
 rate utility function of user $k$ on channel $n$. This utility function
 is assumed to be known by the scheduler. In practical systems, $u*{k,n}$
 is a non-decreasing step function that takes a finite number of non-zero
