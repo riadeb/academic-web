@@ -50,12 +50,11 @@ rate utility function of user $k$ on channel $n$. This utility function
 is assumed to be known by the scheduler. In practical systems, $u_{k,n}$
 is a non-decreasing step function that takes a finite number of non-zero
 values, say $M$ for all $k$ and $n$ and such that $u_{k,n}(0) = 0$ for
-all $k$ and $n$. To fix notations, we thus define: $ u_{k,n}(p_{k,n}) = \left\{
+all $k$ and $n$. To fix notations, we thus define: $ u_{k,n}(p_{k,n}) =
     \begin{array}{ll}
         \tau_{si} & \mbox{si } \{s,i\} \in E \\
         \infty & \mbox{sinon.}
-    \end{array}
-\right.$
+    \end{array}$
 
 ![](capture-d’écran-2020-09-13-à-23.27.48.png)
 
