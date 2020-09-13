@@ -53,7 +53,7 @@ values, say $M$ for all $k$ and $n$ and such that $u_{k,n}(0) = 0$ for
 all $k$ and $n$. To fix notations, we thus define:
     $$\begin{array}{ll}
         u_{k,n}(p_{k,n}) = 0 & if p_{k,n} < p_{k,1,n} \\\\
-      r_{k,1,n}        & if  p_{k,1,n} \leq p_{k,n} < p_{k,2,n} \\\\
+       &                r_{k,1,n} & if  p_{k,1,n} \leq p_{k,n} < p_{k,2,n} \\\\
       \dots & \dots\\\\
       r_{k,M,n}        & if  p_{k,M,n} < p_{k,n}  
     \end{array}$$
