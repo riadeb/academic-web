@@ -75,15 +75,13 @@ for all $0 \leq k  \leq K, 0 \leq m \leq M$ and $0 \leq n \leq N$ .\
 \
 This is a multiple-choice knapsack problem (MCKP) which is a
 generalization of the ordinary knapsack problem, where the set of items
-is partitioned into classes. The binary choice of taking an item is
-replaced by the selection of exactly one item out of each class of
+is partitioned into classes, corresponding to the channels. We need to select exactly one item of each class of
 items\[@knapsack]. This ILP is known to be NP hard. By relaxing the
 integrality constraint on $x_{k,m,n}$, we obtain a linear program (LP),
 which provides an upper bound for our problem. If the solution to the LP
 is integer, then we have a solution for the ILP. In the following
 sections, we first make some preprocessing to reduce problem instance
-size, then solve the LP and the IP, and at last consider an online
-version of the problem.
+size, then solve the LP and the IP.
 
 # Preprocessing
 
