@@ -42,14 +42,14 @@ over a set $\mathcal{N}$ of $N$ channels. Every channel shall be used to
 serve a single user and cannot be left unallocated for efficiency
 reasons; a user can be served using several channels; however some users
 may not be served. The scheduler chooses a transmit power
-$p*{k,n}, k \in K, n \in N$ to serve user $k$ on channel $n$. If user
-$k$ is not served on channel $n$, we have $p*{k,n} = 0$. When user $k$
-is served over channel $n$ with power $p*{k,n}$, its data rate is
-$r*{k,n} = u*{k,n}(p*{k,n})$, where the function $u*{k,n}$ is called the
+$p_{k,n}, k \in K, n \in N$ to serve user $k$ on channel $n$. If user
+$k$ is not served on channel $n$, we have $p_{k,n} = 0$. When user $k$
+is served over channel $n$ with power $p_{k,n}$, its data rate is
+$r_{k,n} = u_{k,n}(p_{k,n})$, where the function $u_{k,n}$ is called the
 rate utility function of user $k$ on channel $n$. This utility function
-is assumed to be known by the scheduler. In practical systems, $u*{k,n}$
+is assumed to be known by the scheduler. In practical systems, $u_{k,n}$
 is a non-decreasing step function that takes a finite number of non-zero
-values, say $M$ for all $k$ and $n$ and such that $u*{k,n}(0) = 0$ for
+values, say $M$ for all $k$ and $n$ and such that $u_{k,n}(0) = 0$ for
 all $k$ and $n$. To fix notations, we thus define:
     $$\begin{array}{ll}
         u_{k,n}(p_{k,n}) =    & 0           & if & p_{k,n} < p_{k,1,n} \\\\
@@ -58,18 +58,17 @@ all $k$ and $n$. To fix notations, we thus define:
                         &  r_{k,M,n}        & if & p_{k,M,n} < p_{k,n}\
     \end{array}$$
 
-![](capture-d’écran-2020-09-13-à-23.27.48.png)
 
-The task of the scheduler is to allocate channels to users and transmit powers to users so as to maximise the sum data rate
-of the system under the constraint of a total transmit power budget $p$
+The task of the scheduler is to allocate channels to users and power levels to  so as to maximise the total data rate
+of the system under the constraint of a total power budget $p$
 and the constraint of having exactly one user served per channel. For
-simplicity, we assume that all coefficients $r*{k,m,n}, p*{k,m,n}$ and
+simplicity, we assume that all coefficients $r_{k,m,n}, p_{k,m,n}$ and
 $p$ are non-negative integers.\
 To formulate the problem as an integer linear program (ILP), we aim to
-maximise $\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ subject to
+maximise $\sum_{k,m,n}x_{k,m,n}r_{k,m,n}$ subject to
 
-1. $\sum*{k,m,n}x*{k,m,n}p_{k,m,n} \leq p$
-2. $\sum*{k,m}x*{k,m,n} = 1$
+1. $\sum_{k,m,n}x_{k,m,n}p_{k,m,n} \leq p$
+2. $\sum_{k,m}x_{k,m,n} = 1$
 3. $x_{k,m,n} \in \mathbb{N}$
 
 for all $0 \leq k  \leq K, 0 \leq m \leq M$ and $0 \leq n \leq N$ .\
@@ -94,15 +93,15 @@ We want to make a quick preprocessing to check if an instance has
 obviously no solution and to remove triplets $(k, m, n)$ that, if
 chosen, obviously prevent any solution to be feasible. A triplet (k,m,n)
 is obviously not a part from any solution if
-$p*{k,m,n} + \sum*{n' \neq n}p*{min,n} > P$, $p*{min,n}$ being the
+$p_{k,m,n} + \sum_{n' \neq n}p_{min,n} > P$, $p_{min,n}$ being the
 minimum power among all terms in channel n. If after this preprocessing
 there is a channel with no terms remaining, then the problem has no
 solution.
 
 ## Removing IP-dominated terms
 
-For a given channel n, if $p*{k,m,n} \leq p*{k^{'},m^{'},n}$ and
-$r*{k,m,n} \geq r*{k^{'},m^{'},n}$ then there is an optimal solution of
+For a given channel n, if $p_{k,m,n} \leq p_{k^{'},m^{'},n}$ and
+$r_{k,m,n} \geq r_{k^{'},m^{'},n}$ then there is an optimal solution of
 the ILP such that $x_{k^{'},m^{'},n} = 0$. We say that $(k^{'},m^{'},n)$
 is IP-dominated
 
@@ -125,10 +124,10 @@ complexity of $O(NKM log(KM))$
 ## Removing LP-dominated terms
 
 For a given channel n, if
-$p*{k,m,n} < p*{k^{'},m^{'},n} < p*{k^{"},m^{"},n}$ and
-$r*{k,m,n} < r*{k^{'},m^{'},n} < r*{k^{"},m^{"},n}$ satisfy:
-$$\frac{r*{k^{"},m^{"},n} - r*{k^{'},m^{'},n}}{p*{k^{"},m^{"},n} -  p*{k^{'},m^{'},n} } \geq 
-    \frac{r*{k^{'},m^{'},n} - r*{k,m,n}}{p*{k^{'},m^{'},n} - p*{k,m,n} }$$
+$p_{k,m,n} < p_{k^{'},m^{'},n} < p_{k^{"},m^{"},n}$ and
+$r_{k,m,n} < r_{k^{'},m^{'},n} < r_{k^{"},m^{"},n}$ satisfy:
+$$\frac{r_{k^{"},m^{"},n} - r_{k^{'},m^{'},n}}{p_{k^{"},m^{"},n} -  p_{k^{'},m^{'},n} } \geq 
+    \frac{r_{k^{'},m^{'},n} - r_{k,m,n}}{p_{k^{'},m^{'},n} - p_{k,m,n} }$$
 then there is an optimal solution of the LP such that
 $x_{k^{'},m^{'},n} = 0$. We say that $(k^{'},m^{'},n)$ is LP-dominated
 
@@ -192,11 +191,11 @@ Linear Program and Greedy Algorithm
 
 Now that the instance size has been reduced, we study a greedy algorithm
 for the LP problem. For a given channel $n$, all possible pairs
-$(p*{k,m,n}, r*{k,m,n})$ are sorted in ascending order of $p*{k,m,n}$
+$(p_{k,m,n}, r_{k,m,n})$ are sorted in ascending order of $p_{k,m,n}$
 and reindexed with the set $\mathcal{L} = {1, ..., L}, L = KM$. We
 define the incremental efficiency of choosing pair $l > 1$ instead of
 pair $l − 1$ for the transmission on channel n as follows:
-$$e*{ln} = \frac{r*{l,n} - r*{l-1,n}}{p*{l,n} - p*{l-1,n}}$$
+$$e_{ln} = \frac{r_{l,n} - r_{l-1,n}}{p_{l,n} - p_{l-1,n}}$$
 
 Based on this notion, we propose a greedy algorithm to provide a
 solution to the LP problem,
@@ -206,15 +205,15 @@ solution to the LP problem,
 **Input** List of all pairs, preprocessed and with access to indexes of
 each pair **Output** Maximum rate achievable for the LP problem instance
 sortedbyeff = SORT ALL PAIRS BY INC EFF DESC power budget = P -
-$\sum*{i=1}^{n} p*{1,i}$ //budget remaining to fill Set
-$x*{1,i} = 1  \forall i \in \lbrace1,...,n\rbrace$ //we use the same
-indexing for x variables as for pairs $rate = \sum*{i=1}^{n}r*{1,i}$
-$i,j =$sortedbyeff.pop().indexes $x*{i,j} = 1, x*{i,j-1} = 0$ power
-budget $-= p*{i,j} - p*{i,j-1}$ $rate += r*{i,j} - r*{i,j-1}$ $i,j =$
+$\sum_{i=1}^{n} p_{1,i}$ //budget remaining to fill Set
+$x_{1,i} = 1  \forall i \in \lbrace1,...,n\rbrace$ //we use the same
+indexing for x variables as for pairs $rate = \sum_{i=1}^{n}r_{1,i}$
+$i,j =$sortedbyeff.pop().indexes $x_{i,j} = 1, x_{i,j-1} = 0$ power
+budget $-= p_{i,j} - p_{i,j-1}$ $rate += r_{i,j} - r_{i,j-1}$ $i,j =$
 sortedbyeff.pop().indexes return $rate$ //We have an integral solution !
-$x = \frac{power budget}{p*{i,j} - p*{i,j-1}}$
-$x*{i,j} = x, x*{i,j-1} = 1-x$ rate $+= (r*{i,j} - r*{i,j-1})*x$ power
-budget $-= (p*{i,j} - p_{i,j-1})*x$ return $rate$
+$x = \frac{power budget}{p_{i,j} - p_{i,j-1}}$
+$x_{i,j} = x, x_{i,j-1} = 1-x$ rate $+= (r_{i,j} - r_{i,j-1})*x$ power
+budget $-= (p_{i,j} - p_{i,j-1})*x$ return $rate$
 
 Sorting and the beginnig of the algorithm takes $O(KMN log(KMN))$, after
 that, we perform a linear traversal of the list, each loop iteration
@@ -269,7 +268,7 @@ $$R(n,p) = \max_{\substack{pair \in channel_n \ pair.p \leq p }} R(n-1,p-pair.p)
 
 **Input** p power budget, data, an array such that data\[n] is an array
 of all pairs of channel n **Output** maximum rate value
-$\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ 1 channel case : Let L an array of
+$\sum_{k,m,n}x_{k,m,n}r_{k,m,n}$ 1 channel case : Let L an array of
 length p L\[i-1] = max(pair.r such $pair.p \leq i$ and pair $\in$
 data\[0]) Let currentChannel = data\[n] Let aux an auxiliary list of
 length p aux\[power-1] = max(L\[power$-$ pair.p $-1$] + pair.r, with
@@ -290,7 +289,7 @@ minimal power allocations is :\
 $$P(n,U) = \min_{\substack{pair \in channel_n \ pair.r \leq U }} P(n-1,U-pair.r) + pair.p$$
 
 **Input** U upper bound for rate, data. **Output** maximum rate value
-$\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ reversing the function $u_1$ : Let L an
+$\sum_{k,m,n}x_{k,m,n}r_{k,m,n}$ reversing the function $u_1$ : Let L an
 array of length U L\[i-1] = min(pair.p such $pair.r = i$ and pair $\in$
 data\[0]) #0 otherwise Let currentChannel = data\[n] Let aux an
 auxiliary list of length U aux\[rate-1] = min(L\[rate$-$ pair.r $-1$]
@@ -402,7 +401,7 @@ has to take a decision each time a new user is coming. To be more
 precise, we assume that the scheduler is aware of the number of users
 $K$ that will arrive in the system. At time $t = k$, user $k$ arrives in
 the system providing to the scheduler all the pairs
-$(p*{k,m,n}, r*{k,m,n})$, $m = 1, ..., M, n = 1, ..., N$. All pairs
+$(p_{k,m,n}, r_{k,m,n})$, $m = 1, ..., M, n = 1, ..., N$. All pairs
 indexed by $k' > k$ are unknown. At this time instant, the scheduler
 must assign the variables $x_{k,m,n}$, $m = 1, ..., M, n = 1, ..., N$
 without being able to modify them in the sequel, i.e., at $t > k$. We
@@ -421,10 +420,10 @@ our expectation of the last pair to be chosen among the left pairs not
 generated yet.\
 In a formal way, let $Th*k$ be the threshold of the k-th iteration and
 $N_k$ the residual channels, we have :\
-$$Th_k = \mathbb{E}(X*{N*k:(K-k)NM}|N_k)$$ where
-$X_t = \frac{R_t}{P_t}$, $(R_t)*{t\in \mathbb{N}}$ and
-$(P*t)*{t\in \mathbb{N}}$ uniformly distributed random variables.\
-With the convention $X*{1:n}>=...>=X*{n:n}$\
+$$Th_k = \mathbb{E}(X_{N*k:(K-k)NM}|N_k)$$ where
+$X_t = \frac{R_t}{P_t}$, $(R_t)_{t\in \mathbb{N}}$ and
+$(P*t)_{t\in \mathbb{N}}$ uniformly distributed random variables.\
+With the convention $X_{1:n}>=...>=X_{n:n}$\
 The constraint is that there is no easy formula for calculating these
 expectations, and simulating the variables in order to use LLN to find
 an approximation would require a lot of processing. we would rather use
