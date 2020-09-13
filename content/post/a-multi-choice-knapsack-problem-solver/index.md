@@ -27,11 +27,6 @@ wireless medium, which is divided into a set of frequency channels.
 Figure 1 is an example of simultaneous transmission towards three users
 using three channels.
 
-\centering
-![Wireless packet scheduler transmitting data simultaneously to three
-users over three (frequency) channels.](scheduler.png){width="150pt"}
-
-\newline
 The higher the power dedicated to a user, the higher the data rate it
 can experience. The exact dependence between power and data rate is
 however user and channel specific. With the same transmit power, a user
@@ -57,13 +52,15 @@ rate utility function of user $k$ on channel $n$. This utility function
 is assumed to be known by the scheduler. In practical systems, $u_{k,n}$
 is a non-decreasing step function that takes a finite number of non-zero
 values, say $M$ for all $k$ and $n$ and such that $u_{k,n}(0) = 0$ for
-all $k$ and $n$. To fix notations, we thus define: $$u_{k,n}(p_{k,n}) =
+all $k$ and $n$. To fix notations, we thus define: 
+$$ u_{k,n}(p_{k,n}) =
     \begin{cases*}
       0 & if $p_{k,n} < p_{k,1,n}$ \\
       r_{k,1,n}        & if $ p_{k,1,n} \leq p_{k,n} < p_{k,2,n}$ \\
       \dots & \dots\\
       r_{k,M,n}        & if $ p_{k,M,n} < p_{k,n} $ 
-    \end{cases*}$$ The task of the scheduler is to allocate channels to
+    \end{cases*} $$
+    The task of the scheduler is to allocate channels to
 users and transmit powers to users so as to maximise the sum data rate
 of the system under the constraint of a total transmit power budget $p$
 and the constraint of having exactly one user served per channel. For
