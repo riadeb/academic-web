@@ -45,14 +45,14 @@ may not be served. The scheduler chooses a transmit power
 $p_{k,n}, k \in K, n \in N$ to serve user $k$ on channel $n$. If user
 $k$ is not served on channel $n$, we have $p_{k,n} = 0$. When user $k$
 is served over channel $n$ with power $p_{k,n}$, its data rate is
-$r_{k,n} = u_{k,n}(p_{k,n})$, where the function $u*{k,n}$ is called the
+$r_{k,n} = u_{k,n}(p_{k,n})$, where the function $u_{k,n}$ is called the
 rate utility function of user $k$ on channel $n$. This utility function
-is assumed to be known by the scheduler. In practical systems, $u*{k,n}$
+is assumed to be known by the scheduler. In practical systems, $u_{k,n}$
 is a non-decreasing step function that takes a finite number of non-zero
 values, say $M$ for all $k$ and $n$ and such that $u_{k,n}(0) = 0$ for
 all $k$ and $n$. To fix notations, we thus define: 
 
-$$u_{k,n}(p_{k,n}) = \left\{
+$$u\\_{k,n}(p\\_{k,n}) = \left\{
     \begin{array}{ll}
         \tau_{si} & \mbox{si } \{s,i\} \in E \\
         \infty & \mbox{sinon.}
