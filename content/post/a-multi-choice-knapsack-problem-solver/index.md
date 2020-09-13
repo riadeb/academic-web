@@ -53,7 +53,7 @@ values, say $M$ for all $k$ and $n$ and such that $u*{k,n}(0) = 0$ for
 all $k$ and $n$. To fix notations, we thus define:
     $$\begin{array}{ll}
         u*{k,n}(p*{k,n}) = 0           & if p*{k,n} < p*{k,1,n} \\\\
-                             r*{k,1,n}       & if  p*{k,1,n} \leq p*{k,n} < p*{k,2,n} \\\\
+                          r*{k,1,n}       & if  p*{k,1,n} \leq p*{k,n} < p*{k,2,n} \\\\
       \dots & \dots \\\\
                           r*{k,M,n}        & if  p*{k,M,n} < p*{k,n}\
     \end{array}$$
