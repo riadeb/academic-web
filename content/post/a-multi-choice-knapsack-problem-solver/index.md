@@ -19,18 +19,6 @@ The Multi Choice Knapsack problem (referred to as MCKP) is a generalisation of t
 
 Multiple approaches are possible, both to the exact and relaxed problem. The solver implements 5 different approaches to the problem : Greedy Approach, LP approach,  Dynammic programming and Branch and Bound.
 
----
-author:
-- |
-    Mohamed Malhou, Benbaki Riade\
-    Supervisor: Marceau Coupechoux
-bibliography:
-- 'bibliography.bib'
-date: January 2020
-title: USER SCHEDULING OVER MULTIPLE CHANNELS
----
-
-\maketitle
 Introduction
 ============
 
