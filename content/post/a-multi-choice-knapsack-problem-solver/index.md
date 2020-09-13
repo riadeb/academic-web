@@ -52,10 +52,10 @@ is a non-decreasing step function that takes a finite number of non-zero
 values, say $M$ for all $k$ and $n$ and such that $u*{k,n}(0) = 0$ for
 all $k$ and $n$. To fix notations, we thus define:
     $$\begin{array}{ll}
-        u*{k,n}(p*{k,n}) = 0           & if p*{k,n} < p*{k,1,n} \\\\
-                          r*{k,1,n}       & if  p*{k,1,n} \leq p*{k,n} < p*{k,2,n} \\\\
+        u_{k,n}(p_{k,n}) = 0           & if p_{k,n} < p_{k,1,n} \\\\
+                        &  r_{k,1,n}       & if  p_{k,1,n} \leq p_{k,n} < p_{k,2,n} \\\\
       \dots & \dots \\\\
-                          r*{k,M,n}        & if  p*{k,M,n} < p*{k,n}\
+                        &  r_{k,M,n}        & if  p_{k,M,n} < p_{k,n}\
     \end{array}$$
 
 ![](capture-d’écran-2020-09-13-à-23.27.48.png)
