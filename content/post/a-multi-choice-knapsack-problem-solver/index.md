@@ -116,7 +116,7 @@ optimal solution by first relying on Dynamic Programming (DP).
 ## Dynamic Programming Solution
 
 The first DP solution is based on a function $R(n,p)$ that returns the maximum rate achievable with channels from 1 to n, and with a power budget of p. This function verifies the following :\
-$$R(n,p) = \max_{\substack{pair \in channel_n \ pair.p \leq p }} R(n-1,p-pair.p) + pair.r$$\
+$$R(n,p) = \max_{\substack{term \in channel_n \ term.p \leq p }} R(n-1,p-term.p) + term.r$$\
 
 
 Time complexity : it takes at most $O(KM)$ to find the maximum of the
@@ -130,7 +130,7 @@ Space complexity : $O(P)$ as we use two arrays of length $P$.
 An alternative DP approach is to consider the problem of finding the
 minimal power budget necessary to achieve a data rate $r$. The equation of finding
 minimal power allocations is :\
-$$P(n,r) = \min_{\substack{pair \in channel_n \ pair.r \leq r }} P(n-1,r-pair.r) + pair.p$$
+$$P(n,r) = \min_{\substack{term \in channel_n \ term.r \leq r }} P(n-1,r-term.r) + term.p$$
 
 To use this approach, we need to know an upper bound of the maximum achievable rate, $U$. This upper-bound can be found by either taking the maximum rate in each channel, or by solving the relaxed LP-problem first.
 
@@ -153,9 +153,9 @@ which case we can update the current feasible solution or (3) the
 relaxed sub-problem is infeasible.
 
 Each level of the tree represents a channel, and each node of each level
-represents a feasible pair choice in that channel.So each path from the
+represents a feasible term choice in that channel.So each path from the
 source to a node in level k represents a possible configuration where
-channels from 1 to k are assigned to a pair. At each node, we use the
+channels from 1 to k are assigned to a term. At each node, we use the
 relaxed problem to find an upper bound for the problem, using the greedy
 algorithm. The greedy algorithm also gives us a feasible solution, so we
 update the lower bound each time this feasible solution is better than
