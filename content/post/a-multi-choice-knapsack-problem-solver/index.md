@@ -124,8 +124,9 @@ $$R(n,p) = \max_{\substack{pair \in channel_n \ pair.p \leq p }} R(n-1,p-pair.p)
 
 Time complexity : it takes at most $O(KM)$ to find the maximum of the
 equation (1), so, regarding the two main loops of our algorithm, we have
-a time complexity of $O(PNKM)$.\
-space complexity : $O(P)$ as we use two arrays of length $P$.\
+a time complexity of $O(PNKM)$.
+
+Space complexity : $O(P)$ as we use two arrays of length $P$.
 
 ## A second dynamic programming approach
 
@@ -136,7 +137,9 @@ $$P(n,r) = \min_{\substack{pair \in channel_n \ pair.r \leq r }} P(n-1,r-pair.r)
 
 To use this approach, we need to know an upper bound of the maximum achievable rate, $U$. This upper-bound can be found by either taking the maximum rate in each channel, or by solving the relaxed LP-problem first.
 
-time complexity : O(NUKM) and space complexity : O(U)\
+Time complexity : O(NUKM)
+
+ Space complexity : O(U)
 
 ## Branch And Bound Solution
 
