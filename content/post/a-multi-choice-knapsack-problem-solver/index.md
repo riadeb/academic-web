@@ -97,10 +97,10 @@ We tested both approaches on the 2 largest files (test4.txt and test5.txt in tes
 
 | Testfile                               | test4.txt       |test5.txt    |
 | -------------------------------------- | --------------- | ----------- |
-| `Preprocessing`                        |168.98987497     | 0.62586537  |
-| `Greedy (on preprocessed instance) `   | 2.08267759      |0.03906349   |
-| `LPsolver (on preprocessed instance) ` | 386.13193925    |5.14502407   |
-| ` LPsolver (without preprocessing) `   | 35256           |29           |
+| `Preprocessing`                        |168.98987497     |0.62586537  |
+| `Greedy (on preprocessed instance) `   |2.08267759      |0.03906349   |
+| `LPsolver (on preprocessed instance) ` |386.13193925    |5.14502407   |
+| ` LPsolver (without preprocessing) `   |35256           |29           |
 
 
 
