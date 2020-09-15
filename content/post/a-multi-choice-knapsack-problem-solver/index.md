@@ -17,7 +17,7 @@ image:
 ---
 The Multi Choice Knapsack problem (referred to as MCKP) is a generalization of the ordinary knapsack problem, where the set of items in partitioned into different classes. The problem consists of finding exactly one item per class in order to maximize the total gain while respecting a total capacity constraint.
 
-Multiple approaches are possible, both to the exact and relaxed problem. In the this article, we present a solver that solves instances of the MCKP, and apply it to a practical issue : User scheduling over communication channels. 
+Multiple approaches are possible, both to the exact and relaxed problem. In this article, we present a solver that solves instances of the MCKP, and apply it to a practical issue : User scheduling over communication channels. 
 
 You can find the Github repo for the solver [here](https://github.com/riadeb/MultiChoiceKP)
 
@@ -37,8 +37,7 @@ however user and channel specific. With the same transmit power, a user
 close to the antenna will enjoy for example a higher data rate than a
 user far away. A wireless packet scheduler is thus responsible to
 allocated channels to users and to divide the total power budget of the
-antenna among the available channels. The goal of this project is to
-design optimal packet schedulers in this context.
+antenna among the available channels.
 
 # Problem formulation
 
@@ -80,12 +79,10 @@ for all $0 \leq k  \leq K, 0 \leq m \leq M$ and $0 \leq n \leq N$ .\
 This is a multiple-choice knapsack problem (MCKP) which is a
 generalization of the ordinary knapsack problem, where the set of items
 is partitioned into classes, corresponding to the channels. We need to select exactly one item of each class of
-items\[@knapsack]. This ILP is known to be NP hard. By relaxing the
+items. This ILP is known to be NP hard. By relaxing the
 integrality constraint on $x_{k,m,n}$, we obtain a linear program (LP),
 which provides an upper bound for our problem. If the solution to the LP
-is integer, then we have a solution for the ILP. In the following
-sections, we first make some preprocessing to reduce problem instance
-size, then solve the LP and the IP.
+is integer, then we have a solution for the ILP.
 
 ## Solving the LP-relaxed problem
 
