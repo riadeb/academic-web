@@ -1,6 +1,6 @@
 ---
 title: A multi-choice knapsack problem solver
-subtitle: Application to a multi-channel communication problem
+subtitle: Application to user scheduling over channels
 date: 2020-09-13T15:20:37.176Z
 draft: false
 featured: true
