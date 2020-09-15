@@ -1,5 +1,5 @@
 ---
-title: A multi-choice knapsack problem solver
+title: A Java Multi-Choice Knapsack Problem solver
 subtitle: Application to user scheduling over channels
 date: 2020-09-13T15:20:37.176Z
 draft: false
