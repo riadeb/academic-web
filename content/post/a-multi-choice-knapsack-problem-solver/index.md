@@ -116,7 +116,7 @@ optimal solution by first relying on Dynamic Programming (DP).
 ## Dynamic Programming Solution
 
 The first DP solution is based on a function $R(n,p)$ that returns the maximum rate achievable with channels from 1 to n, and with a power budget of p. This function verifies the following :\
-$$R(n,p) = \max_{\substack{term \in channel_n \ term.p \leq p }} R(n-1,p-term.p) + term.r$$\
+$$R(n,p) = \max_{\substack{term \in channel_n \ term.p \leq p }} R(n-1,p-term.p) + term.r$$
 
 
 Time complexity : it takes at most $O(KM)$ to find the maximum of the
