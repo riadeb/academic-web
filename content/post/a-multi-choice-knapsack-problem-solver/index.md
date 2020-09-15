@@ -12,7 +12,7 @@ categories:
   - Algorithmics
   - Projects
 image:
-  filename: kisspng-computer-icons-cellular-network-symbol-networks-5ad83895e4aa62.5521118415241197019366.png
+  filename: featured.png
   focal_point: Smart
   preview_only: false
 ---
