@@ -7,7 +7,8 @@ featured: true
 authors:
   - Riade Benbaki
 tags:
-  - ""
+  - Projects
+  - Algorithmics
 categories:
   - Algorithmics
   - Projects
