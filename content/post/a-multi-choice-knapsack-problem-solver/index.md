@@ -19,9 +19,10 @@ The Multi Choice Knapsack problem (referred to as MCKP) is a generalization of t
 
 Multiple approaches are possible, both to the exact and relaxed problem. In the this article, we present a solver that solves instances of the MCKP, and apply it to a practical issue : User scheduling over communication channels. 
 
-You can find the Github repo for the solver [here]{https://github.com/riadeb/MultiChoiceKP}
+You can find the Github repo for the solver [here](https://github.com/riadeb/MultiChoiceKP)
 
-The complete description of the project can be found [here]{/files/MCKP_for_user_scheduling.pdf}
+{{% staticref "files/MCKP_for_user_scheduling.pdf" "newtab" %}}The complete description of the project can be found here{{% /staticref %}}
+
 
 # Introduction
 
