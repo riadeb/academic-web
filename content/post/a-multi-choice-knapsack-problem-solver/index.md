@@ -118,18 +118,9 @@ optimal solution by first relying on Dynamic Programming (DP).
 
 ## Dynamic Programming Solution
 
-Let's tackle a DP algorithm based on sub-problems with power budget less
-than $p$. The equation we are using is given as follows:\
+The first DP solution is based on a function $R(n,p)$ that returns the maximum rate achievable with channels from 1 to n, and with a power budget of p. This function verifies the following :\
 $$R(n,p) = \max_{\substack{pair \in channel_n \ pair.p \leq p }} R(n-1,p-pair.p) + pair.r$$\
 
-**Input** p power budget, data, an array such that data\[n] is an array
-of all pairs of channel n **Output** maximum rate value
-$\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ 1 channel case : Let L an array of
-length p L\[i-1] = max(pair.r such $pair.p \leq i$ and pair $\in$
-data\[0]) Let currentChannel = data\[n] Let aux an auxiliary list of
-length p aux\[power-1] = max(L\[power$-$ pair.p $-1$] + pair.r, with
-$pair.p \leq$ power ,L\[power$-pair.p - 1$]$> 0$ ) for pair $\in$
-currentChannel L = aux L\[-1]
 
 Time complexity : it takes at most $O(KM)$ to find the maximum of the
 equation (1), so, regarding the two main loops of our algorithm, we have
@@ -138,11 +129,10 @@ space complexity : $O(P)$ as we use two arrays of length $P$.\
 
 ## A second dynamic programming approach
 
-An alternative DP approach is to consider sub-problems of finding
-minimal power allocations providing a given sum data rate $r$ less than
-some upper bound $U$ for the objective function. The equation of finding
+An alternative DP approach is to consider the problem of finding the
+minimal power budget necessary to achieve a data rate $r$. The equation of finding
 minimal power allocations is :\
-$$P(n,U) = \min_{\substack{pair \in channel_n \ pair.r \leq U }} P(n-1,U-pair.r) + pair.p$$
+$$P(n,r) = \min_{\substack{pair \in channel_n \ pair.r \leq r }} P(n-1,r-pair.r) + pair.p$$
 
 **Input** U upper bound for rate, data. **Output** maximum rate value
 $\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ reversing the function $u_1$ : Let L an
