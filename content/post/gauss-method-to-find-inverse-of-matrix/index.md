@@ -9,7 +9,7 @@ authors:
 categories:
   - Algorithmics
 image:
-  filename: matrix-3109795_1280.jpg
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 ---
