@@ -15,9 +15,11 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-The Multi Choice Knapsack problem (referred to as MCKP) is a generalisation of the ordinary knapsack problem, where the set of items in partitioned into different classes. The problem consists of finding exactly one item per class in order to maximize the total gain while respecting a total capacity constraint.
+The Multi Choice Knapsack problem (referred to as MCKP) is a generalization of the ordinary knapsack problem, where the set of items in partitioned into different classes. The problem consists of finding exactly one item per class in order to maximize the total gain while respecting a total capacity constraint.
 
-Multiple approaches are possible, both to the exact and relaxed problem. The solver implements 5 different approaches to the problem : Greedy Approach, LP approach,  Dynammic programming and Branch and Bound.
+Multiple approaches are possible, both to the exact and relaxed problem. In the this article, we present a solver that solves instances of the MCKP, and apply it to a practical issue : User scheduling over communication channels. 
+
+You can find the Github repo for the solver [here]{https://github.com/riadeb/MultiChoiceKP}
 
 # Introduction
 
@@ -52,12 +54,11 @@ is a non-decreasing step function that takes a finite number of non-zero
 values, say $M$ for all $k$ and $n$ and such that $u_{k,n}(0) = 0$ for
 all $k$ and $n$. To fix notations, we thus define:
     $$\begin{array}{ll}
-        u_{k,n}(p_{k,n}) =    & 0           & if & p_{k,n} < p_{k,1,n} \\\\
-                        &  r_{k,1,n}       & if & p_{k,1,n} \leq p_{k,n} < p_{k,2,n} \\\\
-                        & \dots & \dots \\\\
+        u_{k,n}(p_{k,n}) =    & 0           & if & p_{k,n} < p_{k,1,n} \\
+                        &  r_{k,1,n}       & if & p_{k,1,n} \leq p_{k,n} < p*{k,2,n} \\
+                        & \dots & \dots \\
                         &  r_{k,M,n}        & if & p_{k,M,n} < p_{k,n}\
     \end{array}$$
-
 
 The task of the scheduler is to allocate channels to users and power levels to  so as to maximise the total data rate
 of the system under the constraint of a total power budget $p$
@@ -83,175 +84,14 @@ is integer, then we have a solution for the ILP. In the following
 sections, we first make some preprocessing to reduce problem instance
 size, then solve the LP and the IP.
 
-# Preprocessing
+## Solving the LP-relaxed problem
 
-## First preprocessing step
-
-We make a first preprocessing to check if an instance has
-obviously no solution and to remove triplets $(k, m, n)$ that, if
-chosen, obviously prevent any solution to be feasible. A triplet (k,m,n)
-is obviously not a part from any solution if
-$p_{k,m,n} + \sum_{n' \neq n}p_{min,n} > P$, $p_{min,n}$ being the
-minimum power among all terms in channel n. If after this preprocessing
-there is a channel with no terms remaining, then the problem has no
-solution.
-
-## Removing IP-dominated terms
-
-For a given channel n, if $p_{k,m,n} \leq p_{k^{'},m^{'},n}$ and
-$r_{k,m,n} \geq r_{k^{'},m^{'},n}$ then there is an optimal solution of
-the ILP such that $x_{k^{'},m^{'},n} = 0$. We say that $(k^{'},m^{'},n)$
-is IP-dominated
-
-Based on this, we provide an algorithm to remove IP-dominated terms
-of an instance of the IP problem. We sort the terms by their power
-values for each channel (and by decreasing rate in case of equal power),
-then as we go through the sorted array, we compare the rate to the
-maximum rate of all the previous terms, and we update this maximum.
+The LP-relaxed problem (removing the integrality constraint) can be solved with an off the shelf LP solver, or using a greedy approach.
 
 
-<pre id="df">
-\begin{algorithmic}
-
-\FOR{$n = 0$ to $ N-1$ }
-\STATE $channels[n].sortbypower()$
-\STATE $maxrate = channels[n][0].rate$
-\FOR{$i = 0$ to $channels[n].size()$}
-\STATE currterm = channels[n][i]
-\IF{currterm.rate $<=$ maxrate} 
-\STATE remove(currterm)
-\ENDIF
-\STATE maxrate = max(maxrate, currterm.rate)
-\ENDFOR
-\ENDFOR
-\end{algorithmic}
-</pre>
-<script>
-    pseudocode.renderElement(document.getElementById("df"));
-</script>
-
-For each channel, sorting costs $O(KM log(KM))$, then we go through the
-terms of each channel, which takes linear time. This gives a total
-complexity of $O(NKM log(KM))$
-
-## Removing LP-dominated terms
-
-For a given channel n, if
-$p_{k,m,n} < p_{k^{'},m^{'},n} < p_{k^{"},m^{"},n}$ and
-$r_{k,m,n} < r_{k^{'},m^{'},n} < r_{k^{"},m^{"},n}$ satisfy:
-$$\frac{r_{k^{"},m^{"},n} - r_{k^{'},m^{'},n}}{p_{k^{"},m^{"},n} -  p_{k^{'},m^{'},n} } \geq 
-    \frac{r_{k^{'},m^{'},n} - r_{k,m,n}}{p_{k^{'},m^{'},n} - p_{k,m,n} }$$
-then there is an optimal solution of the LP such that
-$x_{k^{'},m^{'},n} = 0$. We say that $(k^{'},m^{'},n)$ is LP-dominated
-
-LP dominated terms are in this case terms that don't belong to the
-convex hull of the set of all points. In the following algorithm, we
-determine this convex hull by going through all the terms by order of
-power, and keeping a stack that contains, after each iteration of the
-while loop, the convex hull of the already processed points. When
-processing a new point, we know that this point belongs to the new
-convex hull, but we first need to remove points that will no longer be
-in it. These points are necessarily on top of the stack, so we keep
-testing the top of the stack until all these points are removed, then we
-add the new point.
-
-\FOR{$n = 0$ to $ N-1$ }
-$channels\[n].sortbypower()$ convexhull = \[ channels[0] ] currterm =
-channels\[n]\[i] convexhull.pop() convexhull.push(currterm)
-channels\[n] = convexhull
-
-For each channel, each term is pushed in the stack once, and poped out
-at most one, so the total complexity, for each channel, is
-$O(KM Log(KM) + 2KM) = O(KM Log(KM))$, therefore the total complexity is
-$O(NKM Log(KM))$ or $O(NKM)$ if already sorted by power in the previous
-procedures.
-
-## Applying the preprocessing
-
-We apply the three steps pre-processing on instances of test files
-'test1.txt', 'test2.txt' and 'test3.txt'.
-
-```
- Preprocessing step/TestfFile      1     2    3      4       5
-```
-
-- - -
-
-```
-     Before preprocessing          24   24    24   614400   2400
-After removing impossible terms    24    0    24   614400   2400
-```
-
-   After removing IP-dominated terms   10   N.A   13   14687    329
-   After removing LP-dominated terms   8    N.A   9     4982    193
-
-\
-
-![Pairs in channel 0 of file 5 before preprocessing](Before pro_file 5)
-
-!\[Pairs in the first channel of file 5 after removing impossible
-terms](impossible terms_file 5)
-
-!\[Pairs in the first channel of file 5 after removing IP-dominated
-terms](IP dom)
-
-!\[Pairs in the first channel of file 5 after removing LP-dominated
-terms](LP dom)
-
-\newpage
-Linear Program and Greedy Algorithm
-===================================
-
-Now that the instance size has been reduced, we study a greedy algorithm
-for the LP problem. For a given channel $n$, all possible pairs
-$(p_{k,m,n}, r_{k,m,n})$ are sorted in ascending order of $p_{k,m,n}$
-and reindexed with the set $\mathcal{L} = {1, ..., L}, L = KM$. We
-define the incremental efficiency of choosing pair $l > 1$ instead of
-pair $l − 1$ for the transmission on channel n as follows:
-$$e_{ln} = \frac{r_{l,n} - r_{l-1,n}}{p_{l,n} - p_{l-1,n}}$$
-
-Based on this notion, we propose a greedy algorithm to provide a
-solution to the LP problem,
-
-## The pseudo-code of the greedy algorithm
-
-**Input** List of all pairs, preprocessed and with access to indexes of
-each pair **Output** Maximum rate achievable for the LP problem instance
-sortedbyeff = SORT ALL PAIRS BY INC EFF DESC power budget = P -
-$\sum_{i=1}^{n} p_{1,i}$ //budget remaining to fill Set
-$x_{1,i} = 1  \forall i \in \lbrace1,...,n\rbrace$ //we use the same
-indexing for x variables as for pairs $rate = \sum_{i=1}^{n}r_{1,i}$
-$i,j =$sortedbyeff.pop().indexes $x_{i,j} = 1, x_{i,j-1} = 0$ power
-budget $-= p_{i,j} - p_{i,j-1}$ $rate += r_{i,j} - r_{i,j-1}$ $i,j =$
-sortedbyeff.pop().indexes return $rate$ //We have an integral solution !
-$x = \frac{power budget}{p_{i,j} - p_{i,j-1}}$
-$x_{i,j} = x, x_{i,j-1} = 1-x$ rate $+= (r_{i,j} - r_{i,j-1})*x$ power
-budget $-= (p_{i,j} - p_{i,j-1})*x$ return $rate$
-
-Sorting and the beginnig of the algorithm takes $O(KMN log(KMN))$, after
-that, we perform a linear traversal of the list, each loop iteration
-having a constant cost. The overall complexity is therefore
-$O(KMN log(KMN))$
-
-## Results of the greedy algorithm
-
-   TestfFile     1      2            3                   4             5
-
-- - -
-
-```
-Greedy     365.0   N.A   372.15384615384613   9870.32183908046   1637.0
-```
-
-   LPsolver    365.0   N.A   372.15384615384613   9870.32183908046   1637.0
-
-\
-
-```
+We tested both approaches on the 2 largest files (test4.txt and test5.txt in testfiles folder) and compared their performance in term of CPU runtime.
                    TestfFile                             4             5             
 ```
-
-- - -
 
 ```
                  Preprocessing                      168.98987497   0.62586537        
@@ -263,14 +103,12 @@ Greedy     365.0   N.A   372.15384615384613   9870.32183908046   1637.0
 
 \
 
-# Algorithms for solving the ILP
+## Algorithms for solving the ILP
 
 As the relaxed solution cannot be implemented in practice (this would
 require the possibility to schedule two users on the same channel), we
 tackle in this section the ILP problem (when the power budget is an
-integer). Unfortunately, the greedy algorithm can be arbitrarily bad in
-this case. Although there is an improved greedy algorithm for this
-problem, this is only a 1/2-approximation. We are looking here for an
+integer). We are looking here for an
 optimal solution by first relying on Dynamic Programming (DP).
 
 ## Dynamic Programming Solution
@@ -281,7 +119,7 @@ $$R(n,p) = \max_{\substack{pair \in channel_n \ pair.p \leq p }} R(n-1,p-pair.p)
 
 **Input** p power budget, data, an array such that data\[n] is an array
 of all pairs of channel n **Output** maximum rate value
-$\sum_{k,m,n}x_{k,m,n}r_{k,m,n}$ 1 channel case : Let L an array of
+$\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ 1 channel case : Let L an array of
 length p L\[i-1] = max(pair.r such $pair.p \leq i$ and pair $\in$
 data\[0]) Let currentChannel = data\[n] Let aux an auxiliary list of
 length p aux\[power-1] = max(L\[power$-$ pair.p $-1$] + pair.r, with
@@ -302,7 +140,7 @@ minimal power allocations is :\
 $$P(n,U) = \min_{\substack{pair \in channel_n \ pair.r \leq U }} P(n-1,U-pair.r) + pair.p$$
 
 **Input** U upper bound for rate, data. **Output** maximum rate value
-$\sum_{k,m,n}x_{k,m,n}r_{k,m,n}$ reversing the function $u_1$ : Let L an
+$\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ reversing the function $u_1$ : Let L an
 array of length U L\[i-1] = min(pair.p such $pair.r = i$ and pair $\in$
 data\[0]) #0 otherwise Let currentChannel = data\[n] Let aux an
 auxiliary list of length U aux\[rate-1] = min(L\[rate$-$ pair.r $-1$]
@@ -414,7 +252,7 @@ has to take a decision each time a new user is coming. To be more
 precise, we assume that the scheduler is aware of the number of users
 $K$ that will arrive in the system. At time $t = k$, user $k$ arrives in
 the system providing to the scheduler all the pairs
-$(p_{k,m,n}, r_{k,m,n})$, $m = 1, ..., M, n = 1, ..., N$. All pairs
+$(p*{k,m,n}, r*{k,m,n})$, $m = 1, ..., M, n = 1, ..., N$. All pairs
 indexed by $k' > k$ are unknown. At this time instant, the scheduler
 must assign the variables $x_{k,m,n}$, $m = 1, ..., M, n = 1, ..., N$
 without being able to modify them in the sequel, i.e., at $t > k$. We
@@ -432,11 +270,11 @@ that in each iteration, we select all pairs with efficiency exceeding
 our expectation of the last pair to be chosen among the left pairs not
 generated yet.\
 In a formal way, let $Th*k$ be the threshold of the k-th iteration and
-$N_k$ the residual channels, we have :\
-$$Th_k = \mathbb{E}(X_{N*k:(K-k)NM}|N_k)$$ where
-$X_t = \frac{R_t}{P_t}$, $(R_t)_{t\in \mathbb{N}}$ and
-$(P*t)_{t\in \mathbb{N}}$ uniformly distributed random variables.\
-With the convention $X_{1:n}>=...>=X_{n:n}$\
+$Nk$ the residual channels, we have :\
+$$Th_k = \mathbb{E}(X{N*k:(K-k)NM}|N*k)$$ where
+$X_t = \frac{R_t}{P_t}$, $(R_t)*{t\in \mathbb{N}}$ and
+$(P*t)*{t\in \mathbb{N}}$ uniformly distributed random variables.\
+With the convention $X*{1:n}>=...>=X_{n:n}$\
 The constraint is that there is no easy formula for calculating these
 expectations, and simulating the variables in order to use LLN to find
 an approximation would require a lot of processing. we would rather use
