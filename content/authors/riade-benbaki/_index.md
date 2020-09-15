@@ -15,6 +15,4 @@ social:
     icon: emain
 superuser: true
 ---
-Hi, I am Riade Benbaki. I started programming at 11 with c#, then discovered PHP and web development. I started working as a developer freelancer during high school. After high school, I discovered the joys of competitive programming and theoretical computer science. 
-
-Now I am a first year Masters student at École Polytechnique, majoring in Computer Science, with a strong maths background.
+Hi, I am Riade Benbaki. I am a maths and computer science enthusiast, and first year Masters student at École Polytechnique, majoring in Computer Science. My interests include algorithmics, IA, cryprography, optimization and competitive programming.
