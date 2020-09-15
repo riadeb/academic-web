@@ -21,6 +21,8 @@ Multiple approaches are possible, both to the exact and relaxed problem. In the 
 
 You can find the Github repo for the solver [here]{https://github.com/riadeb/MultiChoiceKP}
 
+The complete description of the project can be found [here]{/files/MCKP_for_user_scheduling.pdf}
+
 # Introduction
 
 An antenna transmits data packets to smartphones (or users) through a
