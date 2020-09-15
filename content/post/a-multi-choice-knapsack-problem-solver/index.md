@@ -134,23 +134,13 @@ minimal power budget necessary to achieve a data rate $r$. The equation of findi
 minimal power allocations is :\
 $$P(n,r) = \min_{\substack{pair \in channel_n \ pair.r \leq r }} P(n-1,r-pair.r) + pair.p$$
 
-**Input** U upper bound for rate, data. **Output** maximum rate value
-$\sum*{k,m,n}x*{k,m,n}r_{k,m,n}$ reversing the function $u_1$ : Let L an
-array of length U L\[i-1] = min(pair.p such $pair.r = i$ and pair $\in$
-data\[0]) #0 otherwise Let currentChannel = data\[n] Let aux an
-auxiliary list of length U aux\[rate-1] = min(L\[rate$-$ pair.r $-1$]
+To use this approach, we need to know an upper bound of the maximum achievable rate, $U$. This upper-bound can be found by either taking the maximum rate in each channel, or by solving the relaxed LP-problem first.
 
-* pair.p, with $pair.r \leq$ rate ,L\[rate$-pair.r - 1$]$> 0$ ) for
-  pair $\in$ currentChannel L = aux maximum index r such that L\[r-1]
-  $<= p$ & L\[r-1] $> 0$
-
-\
-\
 time complexity : O(NUKM) and space complexity : O(U)\
 
 ## Branch And Bound Solution
 
-Another classical way of solving IPs is called Branch-and-Bound (BB).
+Another classical way of solving IPs is Branch-and-Bound (BB).
 The principle of BB is as follows. We construct a tree of sub-problems,
 whose root corresponds to the initial problem. Each vertex v corresponds
 to a sub-problem, which is generated from its parent in the tree by
@@ -177,114 +167,14 @@ algorithm changes the traversal order of the tree : DFS using a stack,
 BFS using a queue. In this case, the later runtime results show that
 using a DFS is faster.
 
-**Input** Current channel, left power budget and a sorted list of all
-pairs by INC EFF DESC. **Output** Lower bound and upper bound performed
-by the greedy algorithm Let $Rate = 0$ Let index $i = 0$ and current
-pair $currPair$ currPair $=$ listOfPairs.get(i) PowerBud $-=$
-currPair.incPower; Rate $+=$ currPair.incRate; i++
-
-Let LowerBound $=$ Rate currPair $=$ listOfPairs.get(i) Let $x =$
-PowerBud/currPair.incPower; Rate $+= x \times$currPair.incRate PowerBud
-$-= x \times$ currPair.incPower Rate and LowerBound
-
-sortedInc = SORT ALL PAIRS BY INC EFF DESC Let Stack a stack$<vertex>$
-Stack.push(new vertex(0,0,0)) // args : current Channel, left power and
-achieved rate currBounds $=$ GreedyBound(0,0,sortedInc) vertex $=$
-Stack.get() continue
-
-\IF{vertex.currChannel $<$ N-1}
-Let BranchBound $=$ GreedyBound(vertex.currChannel+1, powerBud $-$
-vertex.usedPower $-$ pair.p,sortedInc) Stack.push(new
-vertex(vertex.currChannel$+1$,vertex.usedPower $+$ pair.p,
-vertex.rateAchieved $+$ pair.r)) currBounds.LBound $=$
-max(currBounds.LBound, vertex.rateAchieved $+$ pair.r $+$
-BranchBound.UBound) currBounds.LBound $=$ max(currBounds.LBound,
-vertex.rateAchieved $+$ pair.r )
-
-\ENDIF
-\ENDFOR
-\ENDWHILE
-currBounds.LBound
 
 ## Results of IP algorithms
 
-   Test File    1     2     3     4      5
+| Testfile          |1     |2    |3    |4       |5    |
+| ----------------- | ---- | --- | --- | ------ | --- |
+|`DP 1`             |1.493 |NA   |0.506|5722.799|9.421|
+|`DP 2 `            |0.038 |NA   |0.042|4539.203|7.371|
+|`BB (doing a DFS) `|0.004 |NA   |0.012|TLE     |0.078|
+|`BB (doing a BFS) `|0.215 |NA   |0.271|TLE     |0.442|
 
-- - -
 
-```
-  DP1      365   N.A   350   9870   1637
-  DP2      365   N.A   350   9870   1637
-  BB       365   N.A   350   TLE    1637
-```
-
-\
-
-```
-  Test File                1              2       3            4                 5
-```
-
-- - -
-
-```
-     DP1                1.493625         N.A   0.506143   5722.798771        9.421062
-     DP2          0.038489999999999996   N.A   0.042031   4539.203344   7.3717749999999995
-```
-
-   BB (doing a DFS)         0.004246         N.A   0.012026       TLE       0.07812899999999999
-   BB (doing a BFS)   0.21529399999999999    N.A   0.271411       TLE            0.442135
-
-\
-
-\
-
-# Stochastic Online Scheduling
-
-\
-In this section, users arrive sequentially in the system. The scheduler
-is no longer aware of the whole instance before taking a decision and
-has to take a decision each time a new user is coming. To be more
-precise, we assume that the scheduler is aware of the number of users
-$K$ that will arrive in the system. At time $t = k$, user $k$ arrives in
-the system providing to the scheduler all the pairs
-$(p*{k,m,n}, r*{k,m,n})$, $m = 1, ..., M, n = 1, ..., N$. All pairs
-indexed by $k' > k$ are unknown. At this time instant, the scheduler
-must assign the variables $x_{k,m,n}$, $m = 1, ..., M, n = 1, ..., N$
-without being able to modify them in the sequel, i.e., at $t > k$. We
-assume that powers are independent and identically distributed with
-uniform discrete distribution on the set ${1, 2, ..., p^{max}}$; rates
-are independent and identically distributed with uniform discrete
-distribution on the set ${1, 2, ..., r^{max}}$, where $p^{max}$ and
-$r^{max}$ are positive integers. These distributions are supposed to be
-known by the scheduler.
-
-Due to lack of knowledge, optimum solution seems to be unapproachable.
-Thus we aim at proposing an approximation of a greedy algorithm that
-only looks at maximum efficiencies. The first idea that comes to mind is
-that in each iteration, we select all pairs with efficiency exceeding
-our expectation of the last pair to be chosen among the left pairs not
-generated yet.\
-In a formal way, let $Th*k$ be the threshold of the k-th iteration and
-$Nk$ the residual channels, we have :\
-$$Th_k = \mathbb{E}(X{N*k:(K-k)NM}|N*k)$$ where
-$X_t = \frac{R_t}{P_t}$, $(R_t)*{t\in \mathbb{N}}$ and
-$(P*t)*{t\in \mathbb{N}}$ uniformly distributed random variables.\
-With the convention $X*{1:n}>=...>=X_{n:n}$\
-The constraint is that there is no easy formula for calculating these
-expectations, and simulating the variables in order to use LLN to find
-an approximation would require a lot of processing. we would rather use
-a deterministic way trying to be fair to all the users, that is, we give
-each user a fair power budget : $\frac{p}{K}$ to use efficiently without
-restricting the number of channels to use. we get Algorithm 8\
-
-**Input** pmax, rmax, p, M, N, K **Output** achieved rate Let L a
-list\[N] such that $L\[i] == 1$ if channel i is taken Let powerPerUser
-$\frac{p}{K}$ Let Rate $= 0$ data $=$ generate(NM pairs ) sort data by
-efficiency ratio $\frac{r}{p}$ Let up $= 0$ be the used power by user
-$k$ Let i $= 0$ L\[pair.n] = 1 Rate $+=$ pair.r p $-=pair.p$ up
-$+=pair.p$ up $= 0$ Rate
-
-Using the parameters
-$p = 100, p^{max} = 50, r^{max} = 100, M = 2, N = 4$ and $K = 10$, over
-10000 samples, we get a an average ratio of $0.48$ and used power budget
-of $78.23$ versus $82.8$ for optimum solution.
