@@ -95,7 +95,6 @@ The LP-relaxed problem (removing the integrality constraint) can be solved with 
 We tested both approaches on the 2 largest files (test4.txt and test5.txt in testfiles folder) and compared their performance in term of CPU runtime.
           
 
-|                                        |           Runtime (ms)        | 
 | Testfile                               | test4.txt       |test5.txt    |
 | -------------------------------------- | --------------- | ----------- |
 | `Preprocessing`                        |168.98987497     | 0.62586537  |
