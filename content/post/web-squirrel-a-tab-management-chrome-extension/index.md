@@ -10,7 +10,6 @@ tags:
   - Projects
 categories:
   - Projects
-external_link: d
 links: []
 image:
   filename: featured.png
