@@ -22,8 +22,6 @@ Did you ever dig so deep online that you end up with a dozen of open tabs that y
 
 ### Web Squirrel :
 
-![](logo_bl_bg.png "Web Squirrel logo")
-
 Web Squirrel is a simple extension that allows you to store your open tabs is sessions. You can then manage all your saved sessions, by opening tabs within a session or deleting it.
 
 **Why the name ?** Well just like a squirrel collects precious nuts, this extension lets you collect your precious online findings. 
