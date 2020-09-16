@@ -29,6 +29,8 @@ Web Squirrel is a simple extension that allows you to store your open tabs is se
 ![](ws_add.png "New session interface - Web Squirrel extension")
 
 ![](ws_open.png "Managing sessions interface  - Web Squirrel extension")
+{{< imgresize ws_open.png "350x350" "Alternate Text" >}}
+
 
 ### Download link :
 
