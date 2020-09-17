@@ -16,3 +16,5 @@ social:
 superuser: true
 ---
 Hi, I am Riade Benbaki. I am a maths and computer science enthusiast, and first year Masters student at École Polytechnique, majoring in Computer Science. My interests include algorithmics, IA, cryprography, optimization and competitive programming.
+
+[CV](files/cv.pdf)
