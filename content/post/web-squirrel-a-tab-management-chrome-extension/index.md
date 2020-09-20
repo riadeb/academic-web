@@ -15,6 +15,8 @@ image:
   filename: featured.png
   focal_point: Smart
   preview_only: false
+summary: A chrome extension to manage and save tab sessions for later use.
+
 ---
 
 
