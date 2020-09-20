@@ -15,7 +15,9 @@ categories:
 image:
   filename: featured.png
   focal_point: Smart
-  preview_only: false
+  preview_only: false 
+summary : A Java MCKP solver implementing different solving techniques, both to the exact problem and to the LP-relaxed one.
+
 ---
 The Multi Choice Knapsack problem (referred to as MCKP) is a generalization of the ordinary knapsack problem, where the set of items in partitioned into different classes. The problem consists of finding exactly one item per class in order to maximize the total gain while respecting a total capacity constraint.
 
