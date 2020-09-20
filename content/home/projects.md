@@ -11,7 +11,14 @@ subtitle = ""
 [content]
   # Page type to display. E.g. project.
   page_type = "project"
-  
+   [content.filters]
+    tag = ""
+    category = "projects"
+    publication_type = ""
+    exclude_featured = false
+    exclude_past = false
+    exclude_future = false
+    
   # Filter toolbar (optional).
   # Add or remove as many filters (`[[content.filter_button]]` instances) as you like.
   # To show all items, set `tag` to "*".
@@ -39,7 +46,7 @@ subtitle = ""
   #   2 = Compact
   #   3 = Card
   #   5 = Showcase
-  view = 1
+  view = 5
 
   # For Showcase view, flip alternate rows?
   flip_alt_rows = false
