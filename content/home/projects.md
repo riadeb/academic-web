@@ -21,13 +21,7 @@ subtitle = ""
   # Default filter index (e.g. 0 corresponds to the first `[[filter_button]]` instance below).
   filter_default = 0
   
- [content.filters]
-    tag = ""
-    category = "Projects"
-    publication_type = ""
-    exclude_featured = false
-    exclude_past = false
-    exclude_future = false
+
   
   # [[content.filter_button]]
   #   name = "All"
